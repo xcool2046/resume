@@ -1,0 +1,676 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #ffffff;
+    background: linear-gradient(135deg, 
+        #0a0a0f 0%, 
+        #151525 20%, 
+        #1a1a2e 40%, 
+        #16213e 60%, 
+        #0f3460 80%, 
+        #0a0a0f 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+    position: relative;
+    transform: translateZ(0);
+    will-change: transform;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* CSS变量定义 */
+:root {
+    --primary-bg: #0a0a0f;
+    --secondary-bg: #151525;
+    --tertiary-bg: #1a1a2e;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-cyan: #06b6d4;
+    --glass-bg: rgba(15, 15, 15, 0.8);
+    --border-glow: rgba(59, 130, 246, 0.3);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+}
+
+/* 统一网格背景 - 覆盖整个页面 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(var(--accent-blue) 1px, transparent 1px),
+        linear-gradient(90deg, var(--accent-blue) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.08;
+    transition: opacity 0.3s ease;
+}
+
+/* 确保所有内容都在网格背景之上 */
+.hero-section,
+.section {
+    position: relative;
+    z-index: 1;
+}
+
+/* 移除冲突元素和分割线 */
+body::after {
+    display: none;
+}
+
+/* 移除所有可能的分割线和边框 */
+* {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+.section + .section {
+    border-top: none !important;
+    margin-top: 0 !important;
+}
+
+/* 确保hero section和其他section无缝连接 */
+.hero-section + .section {
+    border-top: none !important;
+    margin-top: 0 !important;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 统一导航栏样式 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-glow);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                opacity 0.3s cubic-bezier(0.4, 0.0, 0.2, 1),
+                background 0.2s ease;
+    transform: translateY(0);
+    opacity: 1;
+    will-change: transform, opacity, background;
+}
+
+/* 移除复杂的navbar伪元素 */
+.navbar::before {
+    display: none;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+}
+
+.nav-logo .logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00ff9d;
+    text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+    transition: left 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #9333ea);
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform: translateX(-50%);
+    border-radius: 1px;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 80%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #ffffff;
+    background: rgba(59, 130, 246, 0.15);
+    transform: translateY(-2px) scale(1.02);
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+    box-shadow: 
+        0 10px 30px rgba(59, 130, 246, 0.2),
+        0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+.nav-link i {
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.nav-link:hover i {
+    transform: scale(1.3) rotate(15deg);
+    filter: drop-shadow(0 0 8px #3b82f6);
+}
+
+/* Enhanced Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    will-change: transform, box-shadow;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 2px;
+    background: linear-gradient(45deg, #3b82f6, #9333ea, #3b82f6);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover::after {
+    opacity: 1;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(147, 51, 234, 0.9));
+    color: #fff;
+    box-shadow: 
+        0 8px 32px rgba(59, 130, 246, 0.3),
+        0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 
+        0 20px 40px rgba(59, 130, 246, 0.4),
+        0 0 0 1px rgba(147, 51, 234, 0.4);
+}
+
+.btn-secondary {
+    background: rgba(15, 15, 25, 0.8);
+    color: #3b82f6;
+    border: 2px solid rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary:hover {
+    background: rgba(59, 130, 246, 0.15);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 
+        0 15px 35px rgba(59, 130, 246, 0.3),
+        0 0 0 1px rgba(59, 130, 246, 0.4);
+}
+
+/* Enhanced Section Styles - 统一风格，无分割线 */
+.section {
+    padding: 120px 0;
+    position: relative;
+    contain: layout style paint;
+    /* 统一背景，与hero section保持一致 */
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    /* 确保粒子背景覆盖所有section */
+    z-index: 1;
+}
+
+/* 为所有section添加统一的粒子背景效果 */
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 4rem;
+    color: #ffffff;
+    position: relative;
+    text-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+    letter-spacing: -0.02em;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: titleFadeIn 1s ease-out forwards;
+}
+
+@keyframes titleFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 移除分割线，统一风格 */
+
+/* Enhanced Card Styles */
+.card {
+    background: rgba(15, 15, 25, 0.85);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 16px;
+    padding: 2.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    backdrop-filter: blur(20px) saturate(150%);
+    will-change: transform, box-shadow;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+    transition: left 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    background: linear-gradient(45deg, #3b82f6, #9333ea, #3b82f6);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: -1;
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.card:hover::after {
+    opacity: 1;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02) rotate(1deg);
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 
+        0 25px 50px rgba(59, 130, 246, 0.2),
+        0 0 0 1px rgba(147, 51, 234, 0.3);
+}
+
+/* Parallax Background Interaction */
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -3;
+    transition: background 0.3s ease;
+    will-change: background;
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.glow-text {
+    text-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+}
+
+/* Interactive Elements */
+.interactive-element {
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    will-change: transform, filter;
+}
+
+.interactive-element:hover {
+    transform: translateY(-4px) scale(1.02) rotate(1deg);
+    filter: brightness(1.1) drop-shadow(0 0 30px rgba(59, 130, 246, 0.5));
+}
+
+
+    }
+}
+
+.copy-btn, .close-btn {
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    border: none;
+}
+
+.copy-btn {
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    color: white;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.copy-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.copy-btn:hover::before {
+    left: 100%;
+}
+
+.copy-btn:hover {
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.6);
+    background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+}
+
+.close-btn {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.close-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.close-btn:hover::before {
+    left: 100%;
+}
+
+.close-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+
+
+/* Performance optimizations */
+* {
+    backface-visibility: hidden;
+}
+
+/* Mobile Navigation Enhanced */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.hamburger:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.hamburger span {
+    width: 28px;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #9333ea);
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(10, 10, 15, 0.98);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1.5rem;
+        padding-top: 3rem;
+        transition: left 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        backdrop-filter: blur(40px) saturate(150%);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .hamburger {
+        display: flex;
+        position: absolute;
+        right: 20px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-6px, 7px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-6px, -7px);
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .section {
+        padding: 80px 0;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 15px;
+    }
+
+    .section-title {
+        font-size: 1.9rem;
+    }
+}
+
+/* Enhanced Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(26, 26, 46, 0.8);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #9333ea, #3b82f6);
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.8);
+}
+
+/* Enhanced Selection Styling */
+::selection {
+    background: rgba(59, 130, 246, 0.3);
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+}
+
+/* 添加更多性能优化 */
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* 优化GPU加速 */
+.navbar,
+.hero-section,
+.project-card,
+.about-card,
+.skill-item {
+    transform: translateZ(0);
+    will-change: auto;
+}
+
+/* 减少重绘 */
+img {
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+/* 优化滚动性能 */
+.section {
+    contain: layout style paint;
+}
+
+::selection {
+    background: rgba(59, 130, 246, 0.3);
+    color: #ffffff;
+}
